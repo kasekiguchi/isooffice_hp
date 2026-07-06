@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+const base = import.meta.env.BASE_URL;
+const faculties = [
+  { href: 'https://fes.tcu.ac.jp', img: 'policy/kankyo.gif', alt: '環境学部' },
+  { href: 'https://informatics.tcu.ac.jp/', img: 'policy/medi.gif', alt: 'メディア情報学部' },
+  { href: 'https://www.comm.tcu.ac.jp/ddprom/', img: 'policy/dd_orange.gif', alt: 'デザイン・データ科学部' },
+];
+---
+<Base title="各学部へのご案内" current="policy" description="東京都市大学 横浜キャンパスの各学部へのご案内。">
+  <main>
+    <div class="container prose">
+      <h1 class="page-title">各学部へのご案内</h1>
+      <div class="faculty-buttons">
+        {faculties.map((f) => (
+          <a href={f.href} target="_blank" rel="noopener">
+            <img src={base + f.img} width="270" height="90" alt={f.alt} />
+          </a>
+        ))}
+      </div>
+      <p>
+        <a href="https://www.tcu.ac.jp/entrance/claim/" target="_blank" rel="noopener">資料請求</a>
+        <a href="https://www.tcu.ac.jp/contact/">お問い合わせ</a>
+        <a href="https://www.tcu.ac.jp/privacypolicy/">プライバシーポリシー</a>
+        <a href={base + 'policy/'}>横浜キャンパスISO14001</a>
+        <a href="http://www.goto-ikuei.ac.jp/" target="_blank" rel="noopener">五島育英会</a>
+      </p>
+    </div>
+  </main>
+</Base>

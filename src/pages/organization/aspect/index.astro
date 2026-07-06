@@ -1,0 +1,90 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SubNav from '../../../components/SubNav.astro';
+const items = [
+  { href: 'organization/', label: '組織体系', key: 'index' },
+  { href: 'organization/iso/', label: 'ISO組織体制', key: 'iso' },
+  { href: 'organization/committee/', label: '環境委員会', key: 'committee' },
+  { href: 'organization/aspect/', label: '環境側面', key: 'aspect' },
+];
+
+const columns = [
+  '気候変動', '大気汚染・酸性化', '人の健康損失', '生物多様性の消失・森林伐採',
+  '水質汚濁・土壌汚染', '希少資源の消費', '廃棄物処分場の不足',
+];
+
+// I. 間接影響
+const indirect = [
+  ['環境意識の啓蒙活動推進', '環境教育部会', '◯', '◯', '◯', '◯', '◯', '◯', '◯'],
+  ['環境教育・研究支援', '環境教育部会', '◯', '◯', '◯', '◯', '◯', '◯', '◯'],
+  ['省エネルギー教育研究の推進', '省エネルギー部会', '◯', '◯', '◯', '', '', '◯', ''],
+  ['ゴミ減量化・再資源化の支援研究', '省資源部会', '', '', '', '', '', '◯', '◯'],
+  ['分別収集や有価物回収の支援研究', '省資源部会', '', '', '', '', '', '◯', '◯'],
+  ['省資源教育・研究の発展', '省資源部会', '◯', '', '', '', '', '◯', ''],
+  ['SDGs教育と研究', 'SDGs教育研究部会', '◯', '◯', '◯', '◯', '◯', '◯', '◯'],
+  ['環境関連法規制の完全な把握', '環境管理責任者', '◯', '◯', '◯', '◯', '◯', '◯', '◯'],
+  ['DXの推進', '環境管理責任者', '◯', '◯', '◯', '◯', '◯', '◯', '◯'],
+  ['情報の公開および活用', 'ISO事務局・ISO広報委員会', '◯', '◯', '◯', '◯', '◯', '◯', '◯'],
+];
+
+// II. 直接影響
+const direct = [
+  ['新棟建築工事', '統括責任者', '', '', '▲', '▲', '▲', '', ''],
+  ['グリーン購入促進', '統括責任者', '○', '○', '○', '○', '○', '○', '◯'],
+  ['エネルギー（電力）の消費', '統括責任者', '▲●', '▲●', '', '', '', '●', ''],
+  ['用紙の使用', '統括責任者', '', '', '', '●', '', '●', ''],
+  ['水の使用', '統括責任者', '', '', '', '', '', '●', ''],
+  ['廃棄物の排出', '統括責任者', '', '', '', '', '', '▲●', '▲●'],
+  ['ガスの使用', '食堂・フィールド演習室', '▲●', '', '■', '', '', '●', ''],
+  ['薬品の使用', 'フィールド演習室', '', '', '■●', '', '', '', ''],
+];
+---
+<Base title="環境側面" current="organization" description="別表11（6.1.2）環境側面および環境影響の決定。">
+  <main>
+    <div class="container prose" style="max-width:1000px;">
+      <h1 class="page-title">別表11（6.1.2）環境側面および環境影響の決定</h1>
+      <SubNav items={items} active="aspect" />
+      <p class="legend">●：環境に有害（定常時）　▲：環境に有害（非定常時）　○：環境に有益</p>
+
+      <h2>I. 間接影響</h2>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>環境側面（活動内容）</th><th>所管</th>
+              {columns.map((c) => <th>{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {indirect.map((row) => (
+              <tr>
+                <th>{row[0]}</th>
+                {row.slice(1).map((cell) => <td>{cell}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2>II. 直接影響</h2>
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>環境側面（活動内容）</th><th>所管</th>
+              {columns.map((c) => <th>{c}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {direct.map((row) => (
+              <tr>
+                <th>{row[0]}</th>
+                {row.slice(1).map((cell) => <td>{cell}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</Base>

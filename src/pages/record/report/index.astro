@@ -1,0 +1,62 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SubNav from '../../../components/SubNav.astro';
+const base = import.meta.env.BASE_URL;
+const items = [
+  { href: 'record/', label: '記録トップ', key: 'index' },
+  { href: 'record/data/', label: '電力・用紙・水・廃棄物データ', key: 'data' },
+  { href: 'record/campas/', label: 'キャンパス基礎データ', key: 'campas' },
+  { href: 'record/report/', label: '報告書', key: 'report' },
+  { href: 'record/movie/', label: '動画（〜2015年度）', key: 'movie' },
+];
+const every = (f) => `${base}record/pdf/EveryReport/${f}`;
+const bukai = [
+  { label: '省エネルギー部会', code: 'Energy' },
+  { label: '環境管理部会', code: 'Management' },
+  { label: '省資源部会', code: 'Resource' },
+  { label: '環境教育部会', code: 'Training' },
+  { label: '広報委員会', code: 'PR' },
+];
+---
+<Base title="報告書" current="record" description="環境報告書・定期報告書。">
+  <main>
+    <div class="container prose">
+      <h1 class="page-title">報告書</h1>
+      <SubNav items={items} active="report" />
+
+      <h2>ISO環境報告書 2010-2011版</h2>
+      <ul>
+        <li>
+          <a href={base + 'record/Report/2011ISOReport.pdf'} target="_blank" rel="noopener">
+            2010-2011年度 環境報告書（PDF）
+          </a>
+        </li>
+      </ul>
+
+      <h2>2012年度</h2>
+
+      <h3>ISOフォーラム報告書</h3>
+      <ul>
+        <li>
+          <a href={every('ISOforum12.pdf')} target="_blank" rel="noopener">
+            第14回ISOフォーラム報告書（PDF）
+          </a>
+        </li>
+      </ul>
+
+      <h3>第一四半期 定期報告書</h3>
+      <ul>
+        {bukai.map((b) => (
+          <li><a href={every(`h24/${b.code}_2401.pdf`)} target="_blank" rel="noopener">{b.label}</a></li>
+        ))}
+      </ul>
+
+      <h3>第二四半期 定期報告書</h3>
+      <ul>
+        {bukai.map((b) => (
+          <li><a href={every(`h24/${b.code}_2402.pdf`)} target="_blank" rel="noopener">{b.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </main>
+</Base>

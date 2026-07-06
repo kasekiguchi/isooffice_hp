@@ -1,0 +1,59 @@
+---
+import Nav from '../components/Nav.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  current?: string;
+}
+
+const {
+  title = '東京都市大学 横浜キャンパス ISO事務局',
+  description = '東京都市大学 横浜キャンパス ISO事務局のホームページです。ISO14001に準じたPDCAサイクルの活動広報や証拠提示を行います。',
+  current = '',
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL; // 末尾 "/" 付き
+const fullTitle =
+  title === '東京都市大学 横浜キャンパス ISO事務局'
+    ? title
+    : `${title} | 東京都市大学 横浜キャンパス ISO事務局`;
+---
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content="ISO, ISO14001, 東京都市大学, 横浜キャンパス, 環境, 環境マニュアル, ISO事務局, マネジメントレビュー" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="site-header__brand">
+        <a href={base}>
+          <span class="site-header__title">ISO事務局</span>
+          <span class="site-header__sub">東京都市大学 横浜キャンパス</span>
+        </a>
+      </div>
+      <Nav current={current} />
+    </div>
+  </header>
+
+  <slot />
+
+  <footer class="site-footer">
+    <div class="container">
+      <ul class="site-footer__links">
+        <li><a href="https://www.tcu.ac.jp/">東京都市大学</a></li>
+        <li><a href="https://www.tcu.ac.jp/contact/index.html">お問い合わせ</a></li>
+        <li><a href={base + 'policy/'}>環境方針</a></li>
+        <li><a href={base + 'manual/'}>環境マニュアル</a></li>
+      </ul>
+      <p>&copy; 東京都市大学 横浜キャンパス ISO事務局</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SubNav from '../../../components/SubNav.astro';
+const base = import.meta.env.BASE_URL;
+const items = [
+  { href: 'record/', label: '記録トップ', key: 'index' },
+  { href: 'record/data/', label: '電力・用紙・水・廃棄物データ', key: 'data' },
+  { href: 'record/campas/', label: 'キャンパス基礎データ', key: 'campas' },
+  { href: 'record/report/', label: '報告書', key: 'report' },
+  { href: 'record/movie/', label: '動画（〜2015年度）', key: 'movie' },
+];
+
+// 横浜キャンパス基礎データ（2026年度）。[項目, 値, 記事]
+const rows = [
+  ['敷地面積', '64,688㎡', ''],
+  ['建物（棟数）', '7棟', ''],
+  ['建物（総床面積）', '26,928㎡', ''],
+  ['緑地面積', '20,399㎡', '自然緑地 16,996㎡／造成緑地 3,403㎡'],
+  ['授業開講日数', '168日', ''],
+  ['食堂開館日数', '229日', ''],
+  ['在籍者総数', '2,374人', ''],
+  ['教員（専任）', '64人', ''],
+  ['教員（非常勤）', '104人', ''],
+  ['教員（その他）', '0人', ''],
+  ['事務職員他（専任）', '26人', ''],
+  ['事務職員他（臨時・派遣）', '14人', ''],
+  ['事務職員他（常駐業者）', '44人', ''],
+  ['事務職員他（その他）', '4人', ''],
+  ['学生（学部正規生）', '2,007人', ''],
+  ['学生（科目等履修生・他）', '0人', ''],
+  ['学生（特別聴講生）', '0人', ''],
+  ['大学院生', '111人', ''],
+];
+---
+<Base title="キャンパス基礎データ" current="record" description="横浜キャンパス基礎データ（2026年度）。">
+  <main>
+    <div class="container prose" style="max-width:900px;">
+      <h1 class="page-title">横浜キャンパス基礎データ</h1>
+      <SubNav items={items} active="campas" />
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr><th>項目</th><th>2026年度</th><th>記事</th></tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr><th>{r[0]}</th><td>{r[1]}</td><td>{r[2]}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="figure-note">↓ クリックすると拡大します</p>
+      <a class="figure-zoom" href={base + 'record/img/campas/campas01new.jpg'} target="_blank" rel="noopener">
+        <img src={base + 'record/img/campas/campas01new.jpg'} alt="横浜キャンパス基礎データ" loading="lazy" />
+      </a>
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,15 @@
+---
+import Base from '../../layouts/Base.astro';
+const base = import.meta.env.BASE_URL;
+---
+<Base title="年間計画" current="plan" description="横浜キャンパス 環境マネジメントシステム 年間計画。">
+  <main>
+    <div class="container prose">
+      <h1 class="page-title">年間計画</h1>
+      <p class="figure-note">↓ クリックすると拡大します</p>
+      <a class="figure-zoom" href={base + 'plan/ems2026.png'} target="_blank" rel="noopener">
+        <img src={base + 'plan/ems2026.png'} alt="環境マネジメントシステム 年間計画（2026年度）" loading="lazy" />
+      </a>
+    </div>
+  </main>
+</Base>

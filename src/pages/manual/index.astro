@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import { manualRows } from '../../data/manual.js';
+const base = import.meta.env.BASE_URL;
+const manualPdf = base + 'manual/pdf/2026/2026マニュアル.pdf';
+const appendixPdf = base + 'manual/pdf/2026/2026別表.pdf';
+
+const pastVersions = [
+  { year: '2024年度版', manual: 'manual/pdf/2024/2024マニュアル.pdf', appendix: 'manual/pdf/2024/2024別表.pdf' },
+  { year: '2023年度版', manual: 'manual/pdf/2023/2023マニュアル.pdf', appendix: 'manual/pdf/2023/2023別表.pdf' },
+  { year: '2022年度版', manual: 'manual/pdf/2022/マニュアル2022.pdf', appendix: 'manual/pdf/2022/別表2022.pdf' },
+];
+---
+<Base title="環境マニュアル" current="manual" description="環境管理マニュアル・別表（2026年度版）。ISO14001 規格条項と別表の対応。">
+  <main>
+    <div class="container prose" style="max-width:960px;">
+      <h1 class="page-title">環境管理マニュアル・別表（2026年度版）</h1>
+
+      <div class="btn-row">
+        <a class="btn" href={manualPdf} target="_blank" rel="noopener">環境管理マニュアル（全編 PDF）</a>
+        <a class="btn btn--outline" href={appendixPdf} target="_blank" rel="noopener">別表（全編 PDF）</a>
+      </div>
+
+      <p>規格の各条項に対応する別表は、下表のリンクから該当ページへジャンプします。</p>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr><th>規格NO（条項）</th><th>別表</th></tr>
+          </thead>
+          <tbody>
+            {manualRows.map((row) => (
+              <tr>
+                <th>{row.clause}</th>
+                <td>
+                  {row.page > 0 && row.appendix ? (
+                    <a href={`${appendixPdf}#page=${row.page}`} target="_blank" rel="noopener">{row.appendix}</a>
+                  ) : (
+                    <span style="color:var(--color-text-muted);">—</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2>過去の版</h2>
+      <ul>
+        {pastVersions.map((v) => (
+          <li>
+            {v.year}：
+            <a href={base + v.manual} target="_blank" rel="noopener">マニュアル（全編）</a>
+            {' / '}
+            <a href={base + v.appendix} target="_blank" rel="noopener">別表</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+</Base>

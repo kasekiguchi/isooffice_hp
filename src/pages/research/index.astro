@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+import { researchYears } from '../../data/research.js';
+const base = import.meta.env.BASE_URL;
+---
+<Base title="研究" current="research" description="横浜キャンパスにおける環境関連論文（研究成果一覧）。">
+  <main>
+    <div class="container prose">
+      <h1 class="page-title">最新の研究成果一覧</h1>
+      <p>
+        こちらでは、横浜キャンパスにおける環境関連論文をまとめています。各タイトルより論文（PDF）を閲覧できます。
+      </p>
+
+      {researchYears.map((yr) => (
+        <section>
+          <h2>{yr.year}</h2>
+          <ul>
+            {yr.papers.map((p) => (
+              <li>
+                <a href={base + p.pdf} target="_blank" rel="noopener">{p.title}</a>
+                {p.author && <span style="color:var(--color-text-muted);"> — {p.author}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </main>
+</Base>

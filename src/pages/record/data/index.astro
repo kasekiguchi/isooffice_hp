@@ -1,0 +1,62 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SubNav from '../../../components/SubNav.astro';
+const base = import.meta.env.BASE_URL;
+const items = [
+  { href: 'record/', label: '記録トップ', key: 'index' },
+  { href: 'record/data/', label: '電力・用紙・水・廃棄物データ', key: 'data' },
+  { href: 'record/campas/', label: 'キャンパス基礎データ', key: 'campas' },
+  { href: 'record/report/', label: '報告書', key: 'report' },
+  { href: 'record/movie/', label: '動画（〜2015年度）', key: 'movie' },
+];
+
+const pdf = (y, code) => `${base}record/pdf/PublicServices/${y}${code}.pdf`;
+const categories = [
+  { label: '電力使用量', code: 'elect' },
+  { label: '用紙使用量', code: 'paper' },
+  { label: '水使用量', code: 'water' },
+  { label: '廃棄物排出量', code: 'gabage' },
+];
+// 各年度実績（月別）
+const years = [
+  { label: '2025年度3月迄', y: '202603' },
+  { label: '2024年度', y: '2024' },
+  { label: '2023年度', y: '2023' },
+  { label: '2022年度', y: '2022' },
+  { label: '2021年度', y: '2021' },
+];
+// 年度実績の推移
+const trend = { label: '2008〜2025年度', y: '2025' };
+---
+<Base title="電力・用紙・水・廃棄物データ" current="record" description="横浜キャンパスにおける電力・用紙・水・廃棄物データの推移。">
+  <main>
+    <div class="container prose" style="max-width:960px;">
+      <h1 class="page-title">電力・用紙・水・廃棄物データ</h1>
+      <SubNav items={items} active="data" />
+      <p>横浜キャンパスにおけるデータの推移を公開しています。（各項目 PDF）</p>
+
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th colspan={years.length}>各年度実績（月別）</th>
+              <th>年度実績の推移</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.map((cat) => (
+              <tr>
+                <th>{cat.label}</th>
+                {years.map((yr) => (
+                  <td><a href={pdf(yr.y, cat.code)} target="_blank" rel="noopener">{yr.label}</a></td>
+                ))}
+                <td><a href={pdf(trend.y, cat.code)} target="_blank" rel="noopener">{trend.label}</a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</Base>

@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import SubNav from '../../components/SubNav.astro';
+const base = import.meta.env.BASE_URL;
+const items = [
+  { href: 'organization/', label: '組織体系', key: 'index' },
+  { href: 'organization/iso/', label: 'ISO組織体制', key: 'iso' },
+  { href: 'organization/committee/', label: '環境委員会', key: 'committee' },
+  { href: 'organization/aspect/', label: '環境側面', key: 'aspect' },
+];
+---
+<Base title="組織" current="organization" description="横浜キャンパス 環境ISO組織体系。">
+  <main>
+    <div class="container prose">
+      <h1 class="page-title">横浜キャンパス 環境ISO組織体系</h1>
+      <SubNav items={items} active="index" />
+      <p class="figure-note">↓ クリックすると拡大します</p>
+      <a class="figure-zoom" href={base + 'organization/img/組織図2026.jpg'} target="_blank" rel="noopener">
+        <img src={base + 'organization/img/組織図2026.jpg'} alt="横浜キャンパス 環境ISO組織図 2026" loading="lazy" />
+      </a>
+    </div>
+  </main>
+</Base>

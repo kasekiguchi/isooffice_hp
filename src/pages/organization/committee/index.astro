@@ -1,0 +1,39 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SubNav from '../../../components/SubNav.astro';
+const items = [
+  { href: 'organization/', label: '組織体系', key: 'index' },
+  { href: 'organization/iso/', label: 'ISO組織体制', key: 'iso' },
+  { href: 'organization/committee/', label: '環境委員会', key: 'committee' },
+  { href: 'organization/aspect/', label: '環境側面', key: 'aspect' },
+];
+---
+<Base title="環境委員会" current="organization" description="横浜キャンパス環境委員会の構成メンバー。">
+  <main>
+    <div class="container prose">
+      <h1 class="page-title">横浜キャンパス環境委員会</h1>
+      <SubNav items={items} active="committee" />
+      <p>
+        横浜キャンパスの環境マネジメントシステムに関わる事項について、環境目的の設定等を審議する委員会です。
+      </p>
+      <h2>構成メンバー</h2>
+      <ul>
+        <li>委員長（サイトトップ）</li>
+        <li>副委員長（環境管理責任者）</li>
+        <li>部会長
+          <ul>
+            <li>環境教育部会</li>
+            <li>省エネルギー部会</li>
+            <li>省資源部会</li>
+            <li>SDGs教育研究部会</li>
+          </ul>
+        </li>
+        <li>ISO広報委員長</li>
+        <li>統括責任者</li>
+        <li>施設管理責任者</li>
+        <li>施設運用責任者</li>
+        <li>ISO学生委員会（代表）</li>
+      </ul>
+    </div>
+  </main>
+</Base>

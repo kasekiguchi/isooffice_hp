@@ -1,0 +1,37 @@
+---
+const base = import.meta.env.BASE_URL; // 末尾 "/" 付き
+const { current = '' } = Astro.props;
+
+const items = [
+  { href: '',              label: 'ホーム',       key: 'home' },
+  { href: 'policy/',       label: '環境方針',     key: 'policy' },
+  { href: 'organization/', label: '組織',         key: 'organization' },
+  { href: 'record/',       label: '記録',         key: 'record' },
+  { href: 'plan/',         label: '年間計画',     key: 'plan' },
+  { href: 'research/',     label: '研究',         key: 'research' },
+  { href: 'manual/',       label: '環境マニュアル', key: 'manual' },
+];
+---
+<button class="nav-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="gnav">
+  <span></span><span></span><span></span>
+</button>
+<nav class="gnav" id="gnav">
+  <ul>
+    {items.map((item) => (
+      <li>
+        <a href={base + item.href} aria-current={current === item.key ? 'page' : undefined}>
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('gnav');
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(!!open));
+  });
+</script>

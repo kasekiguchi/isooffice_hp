@@ -1,0 +1,39 @@
+---
+import Base from '../../../layouts/Base.astro';
+import SubNav from '../../../components/SubNav.astro';
+import { movieSections } from '../../../data/movies.js';
+const items = [
+  { href: 'record/', label: '記録トップ', key: 'index' },
+  { href: 'record/data/', label: '電力・用紙・水・廃棄物データ', key: 'data' },
+  { href: 'record/campas/', label: 'キャンパス基礎データ', key: 'campas' },
+  { href: 'record/report/', label: '報告書', key: 'report' },
+  { href: 'record/movie/', label: '動画（〜2015年度）', key: 'movie' },
+];
+const watch = (id) => `https://www.youtube.com/watch?v=${id}`;
+const thumb = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+---
+<Base title="動画（〜2015年度）" current="record" description="環境ISOフォーラム・地域連携・高校生環境活動グループ実践賞の動画アーカイブ。">
+  <main>
+    <div class="container prose" style="max-width:1000px;">
+      <h1 class="page-title">動画（〜2015年度）</h1>
+      <SubNav items={items} active="movie" />
+      <p>環境ISOフォーラム・地域連携・高校生環境活動グループ実践賞の動画アーカイブです（YouTubeで再生されます）。</p>
+
+      {movieSections.map((sec) => (
+        <section>
+          <h2>{sec.heading}</h2>
+          <div class="movie-grid">
+            {sec.videos.map((v) => (
+              <div class="movie-card">
+                <a class="movie-thumb" href={watch(v.id)} target="_blank" rel="noopener" aria-label={v.title}>
+                  <img src={thumb(v.id)} alt={v.title} loading="lazy" />
+                </a>
+                <p>{v.title}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </main>
+</Base>

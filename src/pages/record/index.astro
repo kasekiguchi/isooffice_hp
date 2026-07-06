@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import SubNav from '../../components/SubNav.astro';
+const base = import.meta.env.BASE_URL;
+const items = [
+  { href: 'record/', label: '記録トップ', key: 'index' },
+  { href: 'record/data/', label: '電力・用紙・水・廃棄物データ', key: 'data' },
+  { href: 'record/campas/', label: 'キャンパス基礎データ', key: 'campas' },
+  { href: 'record/report/', label: '報告書', key: 'report' },
+  { href: 'record/movie/', label: '動画（〜2015年度）', key: 'movie' },
+];
+---
+<Base title="記録" current="record" description="東京都市大学 横浜キャンパスの環境活動の記録。">
+  <main>
+    <div class="container prose">
+      <h1 class="page-title">記録</h1>
+      <SubNav items={items} active="index" />
+
+      <h2>日本初のISO14001</h2>
+      <p>
+        東京都市大学横浜キャンパスは、1998年10月28日に、日本の教育機関で初めてISO14001を取得しました。
+        以来現在まで、ISO14001に継続して登録されています。
+      </p>
+      <ul>
+        <li>
+          <a href={base + 'record/pdf/toroku.pdf'} target="_blank" rel="noopener">
+            東京都市大学横浜キャンパスのISO14001登録証（PDF）
+          </a>
+        </li>
+        <li>
+          <a href={base + 'record/pdf/torokue.pdf'} target="_blank" rel="noopener">
+            東京都市大学横浜キャンパスのISO14001登録証（英文・PDF）
+          </a>
+        </li>
+      </ul>
+    </div>
+  </main>
+</Base>

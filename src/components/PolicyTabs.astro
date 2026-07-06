@@ -1,0 +1,16 @@
+---
+const base = import.meta.env.BASE_URL;
+const { active = 'ja' } = Astro.props;
+const tabs = [
+  { key: 'ja', label: '日本語', href: 'policy/' },
+  { key: 'en', label: 'English', href: 'policy/english/' },
+  { key: 'zh', label: '中文', href: 'policy/chinese/' },
+];
+---
+<ul class="lang-tabs">
+  {tabs.map((t) => (
+    <li>
+      <a href={base + t.href} aria-current={active === t.key ? 'page' : undefined}>{t.label}</a>
+    </li>
+  ))}
+</ul>
