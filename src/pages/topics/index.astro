@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import TopicList from '../../components/TopicList.astro';
+import SubNav from '../../components/SubNav.astro';
+import { archive } from '../../data/topics-archive.js';
+const base = import.meta.env.BASE_URL;
+const yearNav = archive.map((a) => ({
+  href: `topics/#${a.year}`,
+  label: a.year,
+  key: a.year,
+}));
+---
+<Base title="過去のトピックス" current="home" description="東京都市大学 横浜キャンパス ISO事務局 過去のトピックス（年度別アーカイブ）。">
+  <main>
+    <div class="container">
+      <h1 class="page-title">過去のトピックス</h1>
+      <p style="margin-bottom:1.5em;">
+        <a href={base}>&laquo; 最新のトピックスへ戻る</a>
+      </p>
+      <SubNav items={yearNav} active="" />
+
+      {archive.map((a) => (
+        <section id={a.year} style="margin-bottom:3em;">
+          <h2>{a.year}</h2>
+          <TopicList topics={a.topics} />
+        </section>
+      ))}
+    </div>
+  </main>
+</Base>

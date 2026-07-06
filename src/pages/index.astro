@@ -1,18 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
+import TopicList from '../components/TopicList.astro';
 import { topics } from '../data/topics.js';
 
 const base = import.meta.env.BASE_URL; // 末尾 "/" 付き
-
-// body 内の相対リンク (href="record/..." 等) にベースパスを付与する。
-// 旧サイトの .html パスは新しいディレクトリURL（末尾スラッシュ）へ変換する。
-// 外部URL・mailto・アンカーはそのまま。
-function rewriteBody(html) {
-  return html.replace(/href="(?!https?:|mailto:|#|\/)([^"]*)"/g, (_m, p) => {
-    p = p.replace(/index\.html$/, '').replace(/\.html$/, '/');
-    return `href="${base}${p}"`;
-  });
-}
 ---
 <Base current="home">
   <section class="hero">
@@ -31,24 +22,10 @@ function rewriteBody(html) {
   <main>
     <div class="container">
       <h2 class="page-title">お知らせ・トピックス</h2>
-      <div class="topics">
-        {topics.map((t) => (
-          <article class="topic" id={t.id}>
-            <span class="topic__date">{t.date}</span>
-            <h3 class="topic__title">{t.title}</h3>
-            <div class="topic__body" set:html={rewriteBody(t.body)} />
-            {t.images.length > 0 && (
-              <div class="topic__images">
-                {t.images.map((img) => (
-                  <a href={base + img.src} target="_blank" rel="noopener">
-                    <img src={base + img.src} alt={img.alt} loading="lazy" />
-                  </a>
-                ))}
-              </div>
-            )}
-          </article>
-        ))}
-      </div>
+      <TopicList topics={topics} />
+      <p style="margin-top:2em;text-align:right;">
+        <a class="btn btn--outline" href={base + 'topics/'}>過去のトピックス ≫</a>
+      </p>
     </div>
   </main>
 </Base>
