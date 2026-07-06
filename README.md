@@ -24,18 +24,42 @@ npm run preview  # ビルド結果をローカル確認
 
 ```
 src/
-  layouts/Base.astro      共通レイアウト（ヘッダー/ナビ/フッター）
-  components/Nav.astro     レスポンシブ・グローバルナビ（モバイルはハンバーガー）
-  styles/global.css        デザインシステム（環境グリーン基調）
-  data/topics.js           トップページのお知らせ（記事はここに追記）
-  pages/                    各ページ（index.astro ほか、順次移植）
-public/                    画像・PDF などの静的アセット（picture/ ほか）
+  layouts/Base.astro         共通レイアウト（ヘッダー/ナビ/フッター）
+  components/Nav.astro        レスポンシブ・グローバルナビ（モバイルはハンバーガー）
+  components/TopicArticle.astro  お知らせ1件の表示
+  styles/global.css           デザインシステム（環境グリーン基調）
+  content.config.ts           Content Collections スキーマ
+  content/topics/*.md          お知らせ記事（1記事1ファイル）
+  data/*.js                    各セクションの構造化データ（movies/research/manual）
+  pages/                       各ページ（index.astro ほか）
+public/                       画像・PDF などの静的アセット（picture/ ほか）
+scripts/                      画像圧縮・移行スクリプト
 ```
 
 ## お知らせ（トピックス）の更新
 
-`src/data/topics.js` の配列の**先頭**に項目を追加する。画像は `public/picture/` に置き、
-`picture/ファイル名` で参照する（ベースパスは自動付与）。
+diversity_hp と同じ **Content Collections**（1記事＝1 Markdown ファイル）方式。
+`src/content/topics/YYYY-MM-DD.md` を新規作成するだけで記事が追加される
+（スキーマは `src/content.config.ts`）。
+
+```markdown
+---
+title: "記事タイトル"
+date: "2026-07-07"          # ISO形式（並び順に使用）
+images:                      # 記事下部のギャラリー（任意）
+  - src: "picture/foo.jpg"
+    alt: "説明"
+# archive: true             # 過去のトピックス(/topics/)に載せる場合
+# fiscalYear: "2026年度"     # アーカイブの年度見出し
+---
+
+本文を **Markdown** で記述。内部リンク（例 `[データ](record/data/)`）や画像には
+ビルド時に自動でベースパスが付与される（`astro.config.mjs` の rehype プラグイン）。
+```
+
+- 画像は `public/picture/` に置き、`picture/ファイル名` で参照する。
+- 最新のお知らせ（`archive` 無し）はトップページに日付降順で表示。
+- `archive: true` の記事は `/topics/` に `fiscalYear` ごとにまとめて表示。
 
 ## デプロイ
 

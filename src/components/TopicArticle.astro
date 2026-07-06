@@ -1,0 +1,20 @@
+---
+const base = import.meta.env.BASE_URL;
+const { id, data } = Astro.props;
+// ISO 日付 "2026-06-17" -> 表示 "2026.6.17"
+const disp = data.date.split('-').map((x, i) => (i ? String(Number(x)) : x)).join('.');
+---
+<article class="topic" id={id}>
+  <span class="topic__date">{disp}</span>
+  <h3 class="topic__title">{data.title}</h3>
+  <div class="topic__body"><slot /></div>
+  {data.images && data.images.length > 0 && (
+    <div class="topic__images">
+      {data.images.map((img) => (
+        <a href={base + img.src} target="_blank" rel="noopener">
+          <img src={base + img.src} alt={img.alt} loading="lazy" />
+        </a>
+      ))}
+    </div>
+  )}
+</article>

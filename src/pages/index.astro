@@ -1,9 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
-import TopicList from '../components/TopicList.astro';
-import { topics } from '../data/topics.js';
+import TopicArticle from '../components/TopicArticle.astro';
+import { getCollection, render } from 'astro:content';
 
-const base = import.meta.env.BASE_URL; // 末尾 "/" 付き
+const base = import.meta.env.BASE_URL;
+
+// 最新のお知らせ（archive でないもの）を日付降順で。
+const entries = (await getCollection('topics', ({ data }) => !data.archive)).sort(
+  (a, b) => b.data.date.localeCompare(a.data.date),
+);
+const rendered = await Promise.all(
+  entries.map(async (e) => ({ entry: e, Content: (await render(e)).Content })),
+);
 ---
 <Base current="home">
   <section class="hero">
@@ -22,7 +30,13 @@ const base = import.meta.env.BASE_URL; // 末尾 "/" 付き
   <main>
     <div class="container">
       <h2 class="page-title">お知らせ・トピックス</h2>
-      <TopicList topics={topics} />
+      <div class="topics">
+        {rendered.map(({ entry, Content }) => (
+          <TopicArticle id={entry.id} data={entry.data}>
+            <Content />
+          </TopicArticle>
+        ))}
+      </div>
       <p style="margin-top:2em;text-align:right;">
         <a class="btn btn--outline" href={base + 'topics/'}>過去のトピックス ≫</a>
       </p>

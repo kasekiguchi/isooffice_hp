@@ -1,14 +1,31 @@
 ---
 import Base from '../../layouts/Base.astro';
-import TopicList from '../../components/TopicList.astro';
+import TopicArticle from '../../components/TopicArticle.astro';
 import SubNav from '../../components/SubNav.astro';
-import { archive } from '../../data/topics-archive.js';
+import { getCollection, render } from 'astro:content';
+
 const base = import.meta.env.BASE_URL;
-const yearNav = archive.map((a) => ({
-  href: `topics/#${a.year}`,
-  label: a.year,
-  key: a.year,
-}));
+
+// アーカイブ記事を年度別にまとめる。
+const entries = await getCollection('topics', ({ data }) => data.archive);
+const byYear = new Map();
+for (const e of entries) {
+  const y = e.data.fiscalYear || 'その他';
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y).push(e);
+}
+// 年度は新しい順、記事は日付降順
+const years = [...byYear.keys()].sort((a, b) => b.localeCompare(a, 'ja'));
+const sections = await Promise.all(
+  years.map(async (year) => {
+    const items = byYear.get(year).sort((a, b) => b.data.date.localeCompare(a.data.date));
+    const rendered = await Promise.all(
+      items.map(async (e) => ({ entry: e, Content: (await render(e)).Content })),
+    );
+    return { year, rendered };
+  }),
+);
+const yearNav = years.map((y) => ({ href: `topics/#${y}`, label: y, key: y }));
 ---
 <Base title="過去のトピックス" current="home" description="東京都市大学 横浜キャンパス ISO事務局 過去のトピックス（年度別アーカイブ）。">
   <main>
@@ -19,10 +36,16 @@ const yearNav = archive.map((a) => ({
       </p>
       <SubNav items={yearNav} active="" />
 
-      {archive.map((a) => (
-        <section id={a.year} style="margin-bottom:3em;">
-          <h2>{a.year}</h2>
-          <TopicList topics={a.topics} />
+      {sections.map((sec) => (
+        <section id={sec.year} style="margin-bottom:3em;">
+          <h2>{sec.year}</h2>
+          <div class="topics">
+            {sec.rendered.map(({ entry, Content }) => (
+              <TopicArticle id={entry.id} data={entry.data}>
+                <Content />
+              </TopicArticle>
+            ))}
+          </div>
         </section>
       ))}
     </div>
